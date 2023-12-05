@@ -1,6 +1,7 @@
 // Import necessary libraries and classes
 package com.example.consume_itunesapi
 
+
 import MainViewModel
 import com.example.consume_itunesapi.model.User
 import android.os.Bundle
@@ -19,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+
 import com.example.consume_itunesapi.ui.theme.Consume_ItunesApiTheme
 
 // Data classes representing the structure of the API response

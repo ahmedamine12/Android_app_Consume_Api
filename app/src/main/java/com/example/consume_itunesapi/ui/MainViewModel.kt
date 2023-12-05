@@ -27,9 +27,22 @@ class MainViewModel : ViewModel() {
     // Function to fetch random users from the API
     fun fetchRandomUsers(count: Int) {
         // Launch a coroutine in the viewModelScope on the IO dispatcher
+
+        /*
+         viewModelScope.launch est utilisé pour lancer une nouvelle coroutine liée
+         au cycle de vie du ViewModel. Elle s'exécute sur le thread Dispatchers.IO,
+         optimisé pour les opérations d'entrée/sortie.
+
+         */
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 // Make a network request to get random user data
+                /*
+                RandomUserService.getRandomUsers est une fonction suspendue.
+                Elle peut être suspendue sans bloquer le thread
+                jusqu'à ce que le résultat soit disponible.
+                Cela permet des interactions fluides et réactives avec l'UI
+                 */
                 val response = randomUserService.getRandomUsers(count)
 
                 // Check if the API request was successful
