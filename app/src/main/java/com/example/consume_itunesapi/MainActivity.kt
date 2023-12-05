@@ -1,5 +1,7 @@
+// Import necessary libraries and classes
 package com.example.consume_itunesapi
 
+import MainViewModel
 import com.example.consume_itunesapi.model.User
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,12 +19,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.example.consume_itunesapi.ui.MainViewModel
 import com.example.consume_itunesapi.ui.theme.Consume_ItunesApiTheme
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Query
 
+// Data classes representing the structure of the API response
 data class RandomUserResponse(
     val results: List<UserResponse>,
     val info: Info
@@ -42,12 +41,12 @@ data class UserResponse(
     val location: Location,
     val email: String
 )
+
 data class Location(
     val country: String
 )
 
 data class Name(
-
     val first: String,
     val last: String
 )
@@ -60,23 +59,23 @@ data class Picture(
     val large: String
 )
 
-interface RandomUserService {
-    @GET("api/")
-    suspend fun getRandomUsers(@Query("results") count: Int): Response<RandomUserResponse>
-}
-
-
+// MainActivity class representing the main activity of the app
 class MainActivity : ComponentActivity() {
     private val viewModel = MainViewModel()
 
+    // Function called when the activity is created
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Set the content of the activity using Compose
         setContent {
             Consume_ItunesApiTheme {
+                // Surface is a basic material design container
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    // Display user information using the Composable function
                     DisplayUserInformation(viewModel.users)
                 }
             }
@@ -88,9 +87,11 @@ class MainActivity : ComponentActivity() {
 
 }
 
+// Composable function to display a list of users using LazyColumn
 @Composable
 fun DisplayUserInformation(users: List<User>) {
     LazyColumn {
+        // Iterate through the list of users and display user information
         items(users) { user ->
             DisplayUserInformation(user = user)
             Spacer(modifier = Modifier.height(16.dp))
@@ -98,6 +99,7 @@ fun DisplayUserInformation(users: List<User>) {
     }
 }
 
+// Composable function to display individual user information
 @Composable
 fun DisplayUserInformation(user: User) {
     Column(
@@ -107,6 +109,7 @@ fun DisplayUserInformation(user: User) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Display the user's image using Coil's rememberImagePainter
         Image(
             painter = rememberImagePainter(data = user.imageUrl),
             contentDescription = "User Image",
@@ -116,6 +119,7 @@ fun DisplayUserInformation(user: User) {
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(16.dp))
+        // Display user information such as name, gender, age, country, and email
         Text(text = "Name: ${user.name}")
         Text(text = "Gender: ${user.gender}")
         Text(text = "Age: ${user.age}")
@@ -123,7 +127,4 @@ fun DisplayUserInformation(user: User) {
         Text(text = "Email: ${user.email}") // Display email
     }
 }
-
-
-
 
